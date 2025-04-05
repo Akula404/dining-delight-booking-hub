@@ -95,6 +95,6 @@
   }
   
   .menu-item {
-    @apply group relative rounded-lg border bg-white p-4 transition-all hover:shadow-md;
+    @apply relative rounded-lg border bg-white p-4 transition-all hover:shadow-md;
   }
 }
