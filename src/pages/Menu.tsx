@@ -5,148 +5,14 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useMenu } from "@/hooks/use-menu";
+import { type MenuItem } from "@/lib/supabase";
+import { Skeleton } from "@/components/ui/skeleton";
 
-// Menu data
-const menuData = {
-  starters: [
-    {
-      name: "Artisanal Cheese Plate",
-      description: "Selection of premium cheeses served with honey, nuts, and artisan crackers",
-      price: "$16",
-      image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?q=80&w=500&auto=format&fit=crop",
-      tags: ["Vegetarian"],
-    },
-    {
-      name: "Tuna Tartare",
-      description: "Fresh tuna with avocado, soy-lime dressing, and wonton crisps",
-      price: "$18",
-      image: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=500&auto=format&fit=crop",
-      tags: ["Signature", "Seafood"],
-    },
-    {
-      name: "Crispy Calamari",
-      description: "Tender calamari fried to perfection, served with spicy aioli",
-      price: "$14",
-      image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=500&auto=format&fit=crop",
-      tags: ["Popular", "Seafood"],
-    },
-    {
-      name: "Wild Mushroom Bruschetta",
-      description: "Toasted artisan bread topped with sautéed wild mushrooms and truffle oil",
-      price: "$13",
-      image: "https://images.unsplash.com/photo-1506280754576-f6fa8a873550?q=80&w=500&auto=format&fit=crop",
-      tags: ["Vegetarian"],
-    },
-  ],
-  mainCourses: [
-    {
-      name: "Filet Mignon",
-      description: "8oz grass-fed beef with garlic mashed potatoes and seasonal vegetables",
-      price: "$38",
-      image: "https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=500&auto=format&fit=crop",
-      tags: ["Signature", "Popular"],
-    },
-    {
-      name: "Pan-Seared Salmon",
-      description: "Wild-caught salmon with lemon butter sauce, quinoa, and asparagus",
-      price: "$29",
-      image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=500&auto=format&fit=crop",
-      tags: ["Healthy", "Seafood"],
-    },
-    {
-      name: "Truffle Risotto",
-      description: "Creamy Arborio rice with wild mushrooms and truffle oil",
-      price: "$24",
-      image: "https://images.unsplash.com/photo-1633964913295-ceb43be9dab4?q=80&w=500&auto=format&fit=crop",
-      tags: ["Vegetarian", "Gluten-Free"],
-    },
-    {
-      name: "Braised Short Ribs",
-      description: "Slow-cooked short ribs with red wine reduction and creamy polenta",
-      price: "$32",
-      image: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=500&auto=format&fit=crop",
-      tags: ["Popular"],
-    },
-  ],
-  seafood: [
-    {
-      name: "Grilled Octopus",
-      description: "Tender octopus with fingerling potatoes, chorizo, and paprika oil",
-      price: "$26",
-      image: "https://images.unsplash.com/photo-1564671546498-bbc2e02ba6c9?q=80&w=500&auto=format&fit=crop",
-      tags: ["Signature", "Seafood"],
-    },
-    {
-      name: "Lobster Linguine",
-      description: "House-made pasta with fresh Maine lobster in a light cream sauce",
-      price: "$42",
-      image: "https://images.unsplash.com/photo-1595295333158-4742f28fbd85?q=80&w=500&auto=format&fit=crop",
-      tags: ["Popular", "Seafood"],
-    },
-    {
-      name: "Seafood Paella",
-      description: "Traditional Spanish rice dish with shrimp, mussels, clams, and chorizo",
-      price: "$34",
-      image: "https://images.unsplash.com/photo-1515443961218-a51367888e4b?q=80&w=500&auto=format&fit=crop",
-      tags: ["Signature"],
-    },
-  ],
-  desserts: [
-    {
-      name: "Chocolate Soufflé",
-      description: "Warm chocolate soufflé with vanilla bean ice cream",
-      price: "$12",
-      image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?q=80&w=500&auto=format&fit=crop",
-      tags: ["Signature", "Popular"],
-    },
-    {
-      name: "Crème Brûlée",
-      description: "Classic vanilla bean custard with caramelized sugar top",
-      price: "$10",
-      image: "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?q=80&w=500&auto=format&fit=crop",
-      tags: ["Gluten-Free"],
-    },
-    {
-      name: "Tiramisu",
-      description: "Espresso-soaked ladyfingers with mascarpone cream",
-      price: "$11",
-      image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=500&auto=format&fit=crop",
-      tags: ["Popular"],
-    },
-    {
-      name: "Seasonal Fruit Tart",
-      description: "Buttery pastry shell filled with vanilla custard and topped with fresh seasonal fruit",
-      price: "$9",
-      image: "https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?q=80&w=500&auto=format&fit=crop",
-      tags: ["Seasonal"],
-    },
-  ],
-  drinks: [
-    {
-      name: "Signature Martini",
-      description: "House-infused vodka with vermouth and a twist",
-      price: "$14",
-      image: "https://images.unsplash.com/photo-1605270012917-bf157c5a9541?q=80&w=500&auto=format&fit=crop",
-      tags: ["Signature", "Cocktail"],
-    },
-    {
-      name: "Barrel-Aged Old Fashioned",
-      description: "Bourbon, bitters, sugar, aged in oak barrels",
-      price: "$16",
-      image: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=500&auto=format&fit=crop",
-      tags: ["Popular", "Whiskey"],
-    },
-    {
-      name: "Sommelier's Wine Selection",
-      description: "Ask your server about our premium wine selection",
-      price: "Varies",
-      image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=500&auto=format&fit=crop",
-      tags: ["Wine"],
-    },
-  ],
-};
+// Fallback menu data to use while loading or if there's an error
+const menuCategories = ["starters", "mainCourses", "seafood", "desserts", "drinks"];
 
-const MenuItem = ({ item }: { item: typeof menuData.starters[0] }) => {
+const MenuItemComponent = ({ item }: { item: MenuItem }) => {
   return (
     <div className="menu-item">
       <div className="relative mb-4 rounded-lg overflow-hidden">
@@ -175,7 +41,26 @@ const MenuItem = ({ item }: { item: typeof menuData.starters[0] }) => {
   );
 };
 
+const MenuSkeleton = () => (
+  <div className="space-y-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {[1, 2, 3, 4].map((i) => (
+        <div key={i} className="border rounded-lg p-4">
+          <Skeleton className="h-48 w-full mb-4" />
+          <Skeleton className="h-4 w-1/4 mb-2" />
+          <Skeleton className="h-6 w-3/4 mb-2" />
+          <Skeleton className="h-4 w-full mb-4" />
+          <Skeleton className="h-6 w-1/4" />
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
 const Menu = () => {
+  const { data: menuData, isLoading, error } = useMenu();
+  const [activeCategory, setActiveCategory] = useState("starters");
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
@@ -206,59 +91,45 @@ const Menu = () => {
               </p>
             </div>
 
-            <Tabs defaultValue="starters" className="max-w-4xl mx-auto">
+            <Tabs 
+              defaultValue="starters" 
+              value={activeCategory}
+              onValueChange={setActiveCategory}
+              className="max-w-4xl mx-auto"
+            >
               <TabsList className="grid grid-cols-3 md:grid-cols-5 mb-8">
-                <TabsTrigger value="starters">Starters</TabsTrigger>
-                <TabsTrigger value="mainCourses">Main Courses</TabsTrigger>
-                <TabsTrigger value="seafood">Seafood</TabsTrigger>
-                <TabsTrigger value="desserts">Desserts</TabsTrigger>
-                <TabsTrigger value="drinks">Drinks</TabsTrigger>
+                {menuCategories.map((category) => (
+                  <TabsTrigger key={category} value={category}>
+                    {category === 'mainCourses' ? 'Main Courses' : category.charAt(0).toUpperCase() + category.slice(1)}
+                  </TabsTrigger>
+                ))}
               </TabsList>
 
-              <TabsContent value="starters">
-                <h3 className="text-2xl font-semibold mb-6 text-restaurant-dark">Starters</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {menuData.starters.map((item, index) => (
-                    <MenuItem key={index} item={item} />
-                  ))}
+              {isLoading ? (
+                <MenuSkeleton />
+              ) : error ? (
+                <div className="text-center py-8">
+                  <p className="text-lg text-gray-600">Failed to load menu items.</p>
+                  <p className="text-md text-gray-500">Please try again later.</p>
                 </div>
-              </TabsContent>
-
-              <TabsContent value="mainCourses">
-                <h3 className="text-2xl font-semibold mb-6 text-restaurant-dark">Main Courses</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {menuData.mainCourses.map((item, index) => (
-                    <MenuItem key={index} item={item} />
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="seafood">
-                <h3 className="text-2xl font-semibold mb-6 text-restaurant-dark">Seafood</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {menuData.seafood.map((item, index) => (
-                    <MenuItem key={index} item={item} />
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="desserts">
-                <h3 className="text-2xl font-semibold mb-6 text-restaurant-dark">Desserts</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {menuData.desserts.map((item, index) => (
-                    <MenuItem key={index} item={item} />
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="drinks">
-                <h3 className="text-2xl font-semibold mb-6 text-restaurant-dark">Drinks</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {menuData.drinks.map((item, index) => (
-                    <MenuItem key={index} item={item} />
-                  ))}
-                </div>
-              </TabsContent>
+              ) : (
+                menuCategories.map((category) => (
+                  <TabsContent key={category} value={category}>
+                    <h3 className="text-2xl font-semibold mb-6 text-restaurant-dark">
+                      {category === 'mainCourses' ? 'Main Courses' : category.charAt(0).toUpperCase() + category.slice(1)}
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      {menuData && menuData[category] ? (
+                        menuData[category].map((item, index) => (
+                          <MenuItemComponent key={item.id} item={item} />
+                        ))
+                      ) : (
+                        <p className="text-gray-600 col-span-2 text-center py-8">No items available in this category.</p>
+                      )}
+                    </div>
+                  </TabsContent>
+                ))
+              )}
             </Tabs>
 
             <div className="text-center mt-12">
