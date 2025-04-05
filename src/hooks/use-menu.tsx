@@ -8,6 +8,15 @@ export function useMenu() {
   const { toast } = useToast();
   
   const fetchMenuItems = async (): Promise<Record<string, MenuItem[]>> => {
+    if (!supabase) {
+      toast({
+        title: 'Supabase Connection Error',
+        description: 'Please connect to Supabase through the Lovable interface.',
+        variant: 'destructive',
+      });
+      return {}; // Return empty object if supabase client is not available
+    }
+    
     const { data, error } = await supabase
       .from('menu_items')
       .select('*')

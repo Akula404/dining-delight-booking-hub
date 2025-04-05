@@ -10,7 +10,10 @@ if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Supabase credentials missing. Make sure you have connected to Supabase through the Lovable interface.');
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Only create the client if we have valid credentials
+export const supabase = (supabaseUrl && supabaseAnonKey) 
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;
 
 export type MenuItem = {
   id: number;
