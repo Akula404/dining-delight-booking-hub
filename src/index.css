@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,91 +6,19 @@
   :root {
     --background: 40 30% 98%;
     --foreground: 20 14.3% 4.1%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
-
-    --primary: 0 59% 27%; /* Deep red */
-    --primary-foreground: 60 9.1% 97.8%;
-
-    --secondary: 38 50% 94%; /* Warm cream */
-    --secondary-foreground: 24 9.8% 10%;
-
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
-
-    --accent: 41 65% 49%; /* Gold/amber */
-    --accent-foreground: 20 14.3% 4.1%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
-
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 35 91.2% 33.3%;
-
-    --radius: 0.5rem;
+    /* Add other variables as necessary */
   }
 
   .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
-
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
-
-    --popover: 20 14.3% 4.1%;
-    --popover-foreground: 60 9.1% 97.8%;
-
-    --primary: 0 59% 40%; /* Adjusted for dark mode */
-    --primary-foreground: 60 9.1% 97.8%;
-
-    --secondary: 12 6.5% 15.1%;
-    --secondary-foreground: 60 9.1% 97.8%;
-
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
-
-    --accent: 41 65% 40%; /* Adjusted for dark mode */
-    --accent-foreground: 60 9.1% 97.8%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 60 9.1% 97.8%;
-
-    --border: 12 6.5% 15.1%;
-    --input: 12 6.5% 15.1%;
-    --ring: 35 91.2% 33.3%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
+    /* Adjust other variables for dark mode */
   }
 }
 
 @layer components {
   .hero-image {
     @apply relative h-[70vh] bg-cover bg-center bg-no-repeat;
-  }
-  
-  .nav-link {
-    @apply relative px-4 py-2 text-lg font-medium transition-colors hover:text-restaurant-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-restaurant-primary after:transition-all hover:after:w-full;
-  }
-  
-  .section-title {
-    @apply relative mb-12 text-3xl font-bold text-restaurant-dark md:text-4xl;
-  }
-  
-  .section-title::after {
-    @apply absolute -bottom-3 left-0 h-1 w-24 bg-restaurant-primary content-[''];
   }
   
   .menu-item {
